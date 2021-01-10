@@ -1,5 +1,7 @@
 package controllers;
 
+import beans.Category;
+import models.CategoryModel;
 import utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -8,9 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "HomeServlet", urlPatterns = "/Home/*")
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "AdminCategoryServlet", urlPatterns = "/Admin/Category/*")
+public class AdminCategoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -22,10 +25,9 @@ public class HomeServlet extends HttpServlet {
         }
         switch (path) {
             case "/Index":
-                ServletUtils.forward("/views/vwHome/Index.jsp", request, response);
-                break;
-            case "/About":
-                ServletUtils.forward("/views/vwHome/About.jsp", request, response);
+                List<Category> list = CategoryModel.getAll();
+                request.setAttribute("categories", list);
+                ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
                 break;
             default:
                 ServletUtils.redirect("/NotFound", request, response);
